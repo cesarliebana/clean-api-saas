@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using SaaV.SaaS.Infrastructure.Providers;
 
 namespace SaaV.SaaS.Infrastructure.Data
 {
@@ -13,9 +14,9 @@ namespace SaaV.SaaS.Infrastructure.Data
             .Build();
 
             DbContextOptionsBuilder<SaaSDbContext> optionsBuilder = new();
-            optionsBuilder.UseSqlServer(config.GetConnectionString("VeriskConnectionString"));
+            optionsBuilder.UseSqlServer(config.GetConnectionString("SaaSConnectionString"));
 
-            return new SaaSDbContext(optionsBuilder.Options);
+            return new SaaSDbContext(optionsBuilder.Options, new TenantProvider());
         }
     }
 }

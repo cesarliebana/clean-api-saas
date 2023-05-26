@@ -1,13 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using SaaV.SaaS.Core.Domain;
+using SaaV.SaaS.Core.Shared.Interfaces;
 
 namespace SaaV.SaaS.Infrastructure.Data
 {
     public class SaaSDbContext : DbContext
     {
-        public SaaSDbContext(DbContextOptions<SaaSDbContext> options) : base(options)
+        private readonly ITenantProvider _tenantProvider;
+
+        public SaaSDbContext(DbContextOptions<SaaSDbContext> options, ITenantProvider tenantProvider) : base(options)
         {
+            _tenantProvider = tenantProvider;
         }
 
         #region DbSets
@@ -36,6 +40,9 @@ namespace SaaV.SaaS.Infrastructure.Data
             #endregion
 
             #region Entities
+            modelBuilder
+                .Entity<Dummy>()
+                .HasQueryFilter(dummy => !dummy.IsDeleted && dummy.TenantId == _tenantProvider.GetTenantId());
             #endregion
         }
     }
