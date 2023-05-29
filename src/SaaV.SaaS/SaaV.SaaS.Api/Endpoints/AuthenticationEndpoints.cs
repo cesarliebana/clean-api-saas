@@ -9,7 +9,7 @@ namespace SaaV.SaaS.WebApi.Endpoints
 
     internal static class AuthenticationEndpoints
     {
-        private const string _secretKey = "12345678901234567890";
+        public const string SecretKey = "12345678901234567890";
         private const string _userName = "cesar.liebana";
         private const int _tenantId = 1;
         private const int _tokenLifetimeInSeconds = 3600;
@@ -33,7 +33,7 @@ namespace SaaV.SaaS.WebApi.Endpoints
 
             JwtSecurityToken tokenOptions = new(
                 expires: DateTime.UtcNow.AddSeconds(_tokenLifetimeInSeconds),
-                signingCredentials: new(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey)), SecurityAlgorithms.HmacSha256),
+                signingCredentials: new(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey)), SecurityAlgorithms.HmacSha256),
                 claims: claims
             );
 

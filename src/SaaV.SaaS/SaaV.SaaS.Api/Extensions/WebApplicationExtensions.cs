@@ -10,6 +10,7 @@ namespace SaaV.SaaS.WebApi.Extensions
         {
             RouteGroupBuilder builder = app.MapGroup("/dummies").WithDisplayName("Dummies").WithOpenApi();
             builder.MapGet("/", DummiesEndpoints.GetAllDummies)
+                .RequireAuthorization()
                 .WithName("GetAllDummies")
                 .WithDescription("Gets all dummies")
                 .Produces<GetAllDummiesResponse>(StatusCodes.Status200OK)
