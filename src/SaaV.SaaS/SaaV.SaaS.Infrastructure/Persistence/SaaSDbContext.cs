@@ -7,11 +7,11 @@ namespace SaaV.SaaS.Infrastructure.Persistence
 {
     public class SaaSDbContext : DbContext
     {
-        private readonly ITenantProvider _tenantProvider;
+        private readonly ICredentialProvider _credentialProvider;
 
-        public SaaSDbContext(DbContextOptions<SaaSDbContext> options, ITenantProvider tenantProvider) : base(options)
+        public SaaSDbContext(DbContextOptions<SaaSDbContext> options, ICredentialProvider credentialProvider) : base(options)
         {
-            _tenantProvider = tenantProvider;
+            _credentialProvider = credentialProvider;
         }
 
         #region DbSets
@@ -42,7 +42,7 @@ namespace SaaV.SaaS.Infrastructure.Persistence
             #region Entities
             modelBuilder
                 .Entity<Dummy>()
-                .HasQueryFilter(dummy => !dummy.IsDeleted && dummy.TenantId == _tenantProvider.TenantId);
+                .HasQueryFilter(dummy => !dummy.IsDeleted && dummy.TenantId == _credentialProvider.Credential.TenantId);
             #endregion
         }
     }

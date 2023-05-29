@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SaaV.SaaS.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using SaaV.SaaS.Infrastructure.Persistence;
 namespace SaaV.SaaS.Infrastructure.Migrations
 {
     [DbContext(typeof(SaaSDbContext))]
-    partial class SaaSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230529101921_Auditory")]
+    partial class Auditory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

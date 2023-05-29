@@ -38,7 +38,7 @@ namespace SaaV.SaaS.Api.Extensions
 
         public static void AddProviders(this IServiceCollection services)
         {
-            services.AddTransient<ITenantProvider, TenantProvider>();
+            services.AddTransient<ICredentialProvider, CredentialProvider>();
         }
 
         public static void AddRepositories(this IServiceCollection services)

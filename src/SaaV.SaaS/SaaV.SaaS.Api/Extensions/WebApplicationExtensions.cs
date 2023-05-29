@@ -17,6 +17,7 @@ namespace SaaV.SaaS.WebApi.Extensions
                 .WithOpenApi();
 
             builder.MapGet("/{id}", DummiesEndpoints.GetDummyById)
+                .RequireAuthorization()
                 .WithName("GetDummyById")
                 .WithDescription("Gets a dummy with an id")
                 .Produces<GetDummyResponse>(StatusCodes.Status200OK)
@@ -24,6 +25,7 @@ namespace SaaV.SaaS.WebApi.Extensions
                 .WithOpenApi();
 
             builder.MapPost("/", DummiesEndpoints.CreateDummy)
+                .RequireAuthorization()
                 .WithName("CreateDummy")
                 .WithDescription("Creates a dummy")
                 .Accepts<CreateDummyModel>("application/json")
@@ -31,6 +33,7 @@ namespace SaaV.SaaS.WebApi.Extensions
                 .WithOpenApi();
 
             builder.MapPut("/{id}", DummiesEndpoints.UpdateDummy)
+                .RequireAuthorization()
                 .WithName("UpdateDummy")
                 .WithDescription("Updates a dummy")
                 .Accepts<UpdateDummyModel>("application/json")
@@ -38,6 +41,7 @@ namespace SaaV.SaaS.WebApi.Extensions
                 .WithOpenApi();
 
             builder.MapDelete("/{id}", DummiesEndpoints.DeleteDummy)
+                .RequireAuthorization()
                 .WithName("DeleteDummy")
                 .WithDescription("Deletes a dummy")
                 .Produces(StatusCodes.Status204NoContent)

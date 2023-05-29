@@ -1,4 +1,7 @@
-﻿namespace SaaV.SaaS.Core.Shared.Entities
+﻿using SaaV.SaaS.Core.Shared.ValueObjects;
+using System.Net;
+
+namespace SaaV.SaaS.Core.Shared.Entities
 {
     public class Entity
     {
@@ -7,20 +10,29 @@
         public int TenantId { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public DateTime ModifiedDateTime { get; set; }
+        public string CreatedUserId { get; set; }
+        public string CreatedUserName { get; set; }
+        public string ModifiedUserId { get; set; }
+        public string ModifiedUserName { get; set; }
 
-        public Entity()
+        public Entity(int tenantId, string createdUserId, string createdUserName)
         {
             CreatedDateTime = ModifiedDateTime = DateTime.UtcNow;
+            CreatedUserId = ModifiedUserId = createdUserId;
+            CreatedUserName = ModifiedUserName = createdUserName;
+            TenantId = tenantId;
         }
 
-        public void MarkAsModified()
+        public void MarkAsModified(Credential credential)
         {
             ModifiedDateTime = DateTime.UtcNow;
+            ModifiedUserId = credential.UserId;
+            ModifiedUserName = credential.UserName;            
         }
 
-        public void MarkAsDeleted()
+        public void MarkAsDeleted(Credential credential)
         {
-            ModifiedDateTime = DateTime.UtcNow;
+            MarkAsModified(credential);
             IsDeleted = true;
         }
     }

@@ -9,11 +9,13 @@ namespace SaaV.SaaS.Core.Domain.Handlers
     {
         private readonly IDummyRepository _dummyRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICredentialProvider _credentialProvider;
 
-        public DeleteDummyHandler(IDummyRepository dummyRepository, IUnitOfWork unitOfWork)
+        public DeleteDummyHandler(IDummyRepository dummyRepository, IUnitOfWork unitOfWork, ICredentialProvider credentialProvider)
         {
             _dummyRepository = dummyRepository;
             _unitOfWork = unitOfWork;
+            _credentialProvider = credentialProvider;
         }
 
         public async Task Handle(DeleteDummyRequest deleteDummyRequest, CancellationToken cancellationToken)
@@ -21,7 +23,7 @@ namespace SaaV.SaaS.Core.Domain.Handlers
             Dummy dummy = await _dummyRepository.GetByIdAsync(deleteDummyRequest.Id) 
                 ?? throw new ItemNotFoundException(typeof(Dummy), deleteDummyRequest.Id);
             
-            dummy.MarkAsDeleted();
+            dummy.MarkAsDeleted(_credentialProvider.Credential);
             
             await _unitOfWork.SaveChangesAsync();
         }

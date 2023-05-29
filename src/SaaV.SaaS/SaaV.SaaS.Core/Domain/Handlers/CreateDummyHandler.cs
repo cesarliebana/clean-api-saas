@@ -11,20 +11,24 @@ namespace SaaV.SaaS.Core.Domain.Handlers
         private readonly IDummyRepository _dummyRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ITenantProvider _tenantProvider;
+        private readonly ICredentialProvider _credentialProvider;
 
-        public CreateDummyHandler(IDummyRepository dummyRepository, IUnitOfWork unitOfWork, IMapper mapper, ITenantProvider tenantProvider)
+        public CreateDummyHandler(IDummyRepository dummyRepository, IUnitOfWork unitOfWork, IMapper mapper, ICredentialProvider credentialProvider)
         {
             _dummyRepository = dummyRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _tenantProvider = tenantProvider;
+            _credentialProvider = credentialProvider;
         }
 
         public async Task<GetDummyResponse> Handle(CreateDummyRequest createDummyRequest, CancellationToken cancellationToken)
         {
-            Dummy dummy = new Dummy(createDummyRequest.Name);
-            dummy.TenantId = _tenantProvider.TenantId;
+            Dummy dummy = new Dummy(
+                createDummyRequest.Name, 
+                _credentialProvider.Credential.TenantId,
+                _credentialProvider.Credential.UserId,
+                _credentialProvider.Credential.UserName);
+
             _dummyRepository.Add(dummy);
             
             await _unitOfWork.SaveChangesAsync();

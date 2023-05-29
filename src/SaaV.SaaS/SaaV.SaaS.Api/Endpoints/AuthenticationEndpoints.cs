@@ -17,7 +17,7 @@ namespace SaaV.SaaS.WebApi.Endpoints
         public static IResult GetBearerToken()
         {                                    
             return Results.Ok(new GetBearerTokenResponse(GenerateBearerToken(
-                new Guid().ToString(),
+                Guid.NewGuid().ToString(),
                 _userName,
                 _tokenLifetimeInSeconds
                 )));
