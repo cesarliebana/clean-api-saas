@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SaaV.SaaS.Core.Shared.Entities;
 using SaaV.SaaS.Core.Shared.Interfaces;
-using SaaV.SaaS.Infrastructure.Data;
+using SaaV.SaaS.Infrastructure.Persistence;
 using System.Linq.Expressions;
 
 namespace SaaV.SaaS.Infrastructure.Repositories

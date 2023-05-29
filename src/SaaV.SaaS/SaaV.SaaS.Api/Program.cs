@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SaaV.SaaS.Api.Extensions;
 using SaaV.SaaS.Core.Domain.Handlers;
-using SaaV.SaaS.Infrastructure.Data;
+using SaaV.SaaS.Infrastructure.Persistence;
 using SaaV.SaaS.WebApi.Extensions;
 using SaaV.SaaS.WebApi.Middlewares;
 
@@ -18,6 +18,7 @@ namespace SaaV.SaaS.Api
 
             // Add services to the container.
             builder.Services.AddAuthorization();
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(typeof(CreateDummyHandler).Assembly));
 

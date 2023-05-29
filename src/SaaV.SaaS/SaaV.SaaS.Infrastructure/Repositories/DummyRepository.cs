@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SaaV.SaaS.Core.Domain;
 using SaaV.SaaS.Core.Domain.Responses;
-using SaaV.SaaS.Infrastructure.Data;
+using SaaV.SaaS.Infrastructure.Persistence;
 
 namespace SaaV.SaaS.Infrastructure.Repositories
 {

@@ -8,13 +8,15 @@ namespace SaaV.SaaS.Core.Domain.Handlers
 {
     public class CreateDummyHandler : IRequestHandler<CreateDummyRequest, GetDummyResponse>
     {
-        IDummyRepository _dummyRepository;
-        IMapper _mapper;
-        ITenantProvider _tenantProvider;
+        private readonly IDummyRepository _dummyRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly ITenantProvider _tenantProvider;
 
-        public CreateDummyHandler(IDummyRepository dummyRepository, IMapper mapper, ITenantProvider tenantProvider)
+        public CreateDummyHandler(IDummyRepository dummyRepository, IUnitOfWork unitOfWork, IMapper mapper, ITenantProvider tenantProvider)
         {
             _dummyRepository = dummyRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _tenantProvider = tenantProvider;
         }
@@ -22,9 +24,10 @@ namespace SaaV.SaaS.Core.Domain.Handlers
         public async Task<GetDummyResponse> Handle(CreateDummyRequest createDummyRequest, CancellationToken cancellationToken)
         {
             Dummy dummy = new Dummy(createDummyRequest.Name);
-            dummy.TenantId = _tenantProvider.GetTenantId();
+            dummy.TenantId = _tenantProvider.TenantId;
             _dummyRepository.Add(dummy);
-            await _dummyRepository.SaveChangesAsync();
+            
+            await _unitOfWork.SaveChangesAsync();
 
             return _mapper.Map<Dummy, GetDummyResponse>(dummy);
         }

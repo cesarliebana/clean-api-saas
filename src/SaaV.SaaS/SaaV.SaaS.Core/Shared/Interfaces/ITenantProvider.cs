@@ -2,6 +2,6 @@
 {
     public interface ITenantProvider
     {
-        public int GetTenantId();
+        public int TenantId { get; }
     }
 }

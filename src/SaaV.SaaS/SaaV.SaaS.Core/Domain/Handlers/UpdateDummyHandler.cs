@@ -3,17 +3,20 @@ using MediatR;
 using SaaV.SaaS.Core.Domain.Requests;
 using SaaV.SaaS.Core.Domain.Responses;
 using SaaV.SaaS.Core.Shared.Exceptions;
+using SaaV.SaaS.Core.Shared.Interfaces;
 
 namespace SaaV.SaaS.Core.Domain.Handlers
 {
     public class UpdateDummyHandler : IRequestHandler<UpdateDummyRequest, GetDummyResponse>
     {
-        IDummyRepository _dummyRepository;
-        IMapper _mapper;
+        private readonly IDummyRepository _dummyRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public UpdateDummyHandler(IDummyRepository dummyRepository, IMapper mapper)
+        public UpdateDummyHandler(IDummyRepository dummyRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _dummyRepository = dummyRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -23,7 +26,7 @@ namespace SaaV.SaaS.Core.Domain.Handlers
                 ?? throw new ItemNotFoundException(typeof(Dummy), updateDummyRequest.Id);
 
             dummy.Update(updateDummyRequest.Name);
-            await _dummyRepository.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
             return _mapper.Map<Dummy, GetDummyResponse>(dummy);
         }

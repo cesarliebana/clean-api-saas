@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using SaaV.SaaS.Core.Domain;
 using SaaV.SaaS.Core.Shared.Interfaces;
 
-namespace SaaV.SaaS.Infrastructure.Data
+namespace SaaV.SaaS.Infrastructure.Persistence
 {
     public class SaaSDbContext : DbContext
     {
@@ -42,7 +42,7 @@ namespace SaaV.SaaS.Infrastructure.Data
             #region Entities
             modelBuilder
                 .Entity<Dummy>()
-                .HasQueryFilter(dummy => !dummy.IsDeleted && dummy.TenantId == _tenantProvider.GetTenantId());
+                .HasQueryFilter(dummy => !dummy.IsDeleted && dummy.TenantId == _tenantProvider.TenantId);
             #endregion
         }
     }

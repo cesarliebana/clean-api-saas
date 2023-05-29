@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using SaaV.SaaS.Infrastructure.Providers;
 
-namespace SaaV.SaaS.Infrastructure.Data
+namespace SaaV.SaaS.Infrastructure.Persistence
 {
     public class SaaSDbContextFactory : IDesignTimeDbContextFactory<SaaSDbContext>
     {
@@ -16,7 +15,7 @@ namespace SaaV.SaaS.Infrastructure.Data
             DbContextOptionsBuilder<SaaSDbContext> optionsBuilder = new();
             optionsBuilder.UseSqlServer(config.GetConnectionString("SaaSConnectionString"));
 
-            return new SaaSDbContext(optionsBuilder.Options, new TenantProvider());
+            return new SaaSDbContext(optionsBuilder.Options, null);
         }
     }
 }

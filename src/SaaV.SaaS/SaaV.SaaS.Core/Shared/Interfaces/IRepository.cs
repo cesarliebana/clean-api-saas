@@ -12,7 +12,5 @@ namespace SaaV.SaaS.Core.Shared.Interfaces
         Task<TEntity?> GetByIdAsync(int id);
 
         void Add(TEntity entity);
-
-        Task SaveChangesAsync();
     }
 }
