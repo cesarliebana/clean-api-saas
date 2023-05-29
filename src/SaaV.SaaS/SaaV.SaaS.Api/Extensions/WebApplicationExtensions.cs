@@ -15,7 +15,7 @@ namespace SaaV.SaaS.WebApi.Extensions
                 .Produces<GetAllDummiesResponse>(StatusCodes.Status200OK)
                 .WithOpenApi();
 
-            builder.MapGet("/{id}", DummiesEndpoints.GetDummyById)                
+            builder.MapGet("/{id}", DummiesEndpoints.GetDummyById)
                 .WithName("GetDummyById")
                 .WithDescription("Gets a dummy with an id")
                 .Produces<GetDummyResponse>(StatusCodes.Status200OK)
@@ -41,6 +41,17 @@ namespace SaaV.SaaS.WebApi.Extensions
                 .WithDescription("Deletes a dummy")
                 .Produces(StatusCodes.Status204NoContent)
                 .WithOpenApi();
+        }
+
+        public static void MapAuthenticationEndpoints(this WebApplication app)
+        {
+            RouteGroupBuilder builder = app.MapGroup("/auth").WithDisplayName("Authentication").WithOpenApi();
+            builder.MapGet("/", AuthenticationEndpoints.GetBearerToken)
+                .WithName("GetBearerToken")
+                .WithSummary("Get a bearer token")
+                .Produces<GetBearerTokenResponse>(StatusCodes.Status200OK)
+                .WithOpenApi();
+
         }
     }
 }

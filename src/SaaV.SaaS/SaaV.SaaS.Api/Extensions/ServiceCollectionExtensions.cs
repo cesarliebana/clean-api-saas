@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SaaV.SaaS.Core.Domain;
 using SaaV.SaaS.Core.Shared.Interfaces;
+using SaaV.SaaS.Infrastructure.Persistence;
 using SaaV.SaaS.Infrastructure.Providers;
 using SaaV.SaaS.Infrastructure.Repositories;
 
@@ -15,6 +16,8 @@ namespace SaaV.SaaS.Api.Extensions
 
         public static void AddRepositories(this IServiceCollection services)
         {
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IDummyRepository, DummyRepository>();
         }

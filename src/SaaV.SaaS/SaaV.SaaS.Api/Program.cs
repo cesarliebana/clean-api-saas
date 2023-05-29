@@ -44,6 +44,7 @@ namespace SaaV.SaaS.Api
             app.UseAuthorization();
 
             app.MapDummyEndpoints();
+            app.MapAuthenticationEndpoints();
 
             app.UseMiddleware<ExceptionMiddleware>();
 
