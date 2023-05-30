@@ -23,7 +23,7 @@ namespace SaaV.SaaS.Core.Domain.Handlers
             Dummy dummy = await _dummyRepository.GetByIdAsync(deleteDummyRequest.Id) 
                 ?? throw new ItemNotFoundException(typeof(Dummy), deleteDummyRequest.Id);
             
-            dummy.MarkAsDeleted(_credentialProvider.Credential);
+            dummy.MarkAsDeleted(_credentialProvider.Credential.UserId, _credentialProvider.Credential.UserName);
             
             await _unitOfWork.SaveChangesAsync();
         }

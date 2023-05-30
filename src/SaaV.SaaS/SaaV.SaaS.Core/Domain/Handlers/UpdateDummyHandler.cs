@@ -25,7 +25,8 @@ namespace SaaV.SaaS.Core.Domain.Handlers
             Dummy dummy = await _dummyRepository.GetByIdAsync(updateDummyRequest.Id)
                 ?? throw new ItemNotFoundException(typeof(Dummy), updateDummyRequest.Id);
 
-            dummy.Update(_credentialProvider.Credential, updateDummyRequest.Name);
+            dummy.Update(updateDummyRequest.Name);
+            dummy.MarkAsModified(_credentialProvider.Credential.UserId, _credentialProvider.Credential.UserName);
             await _unitOfWork.SaveChangesAsync();
 
             return dummy.Adapt<GetDummyResponse>();

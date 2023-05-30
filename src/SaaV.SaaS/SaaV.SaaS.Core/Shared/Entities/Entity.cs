@@ -6,14 +6,14 @@ namespace SaaV.SaaS.Core.Shared.Entities
     public class Entity
     {
         public int Id { get; set; }
-        public bool IsDeleted { get; set; }
-        public int TenantId { get; set; }
-        public DateTime CreatedDateTime { get; set; }
-        public DateTime ModifiedDateTime { get; set; }
-        public string CreatedUserId { get; set; }
-        public string CreatedUserName { get; set; }
-        public string ModifiedUserId { get; set; }
-        public string ModifiedUserName { get; set; }
+        public bool IsDeleted { get; private set; }
+        public int TenantId { get; private set; }
+        public DateTime CreatedDateTime { get; private set; }
+        public DateTime ModifiedDateTime { get; private set; }
+        public string CreatedUserId { get; private set; }
+        public string CreatedUserName { get; private set; }
+        public string ModifiedUserId { get; private set; }
+        public string ModifiedUserName { get; private set; }
 
         public Entity(int tenantId, string createdUserId, string createdUserName)
         {
@@ -23,16 +23,16 @@ namespace SaaV.SaaS.Core.Shared.Entities
             TenantId = tenantId;
         }
 
-        public void MarkAsModified(Credential credential)
+        public void MarkAsModified(string userId, string userName)
         {
             ModifiedDateTime = DateTime.UtcNow;
-            ModifiedUserId = credential.UserId;
-            ModifiedUserName = credential.UserName;            
+            ModifiedUserId = userId;
+            ModifiedUserName = userName;            
         }
 
-        public void MarkAsDeleted(Credential credential)
+        public void MarkAsDeleted(string userId, string userName)
         {
-            MarkAsModified(credential);
+            MarkAsModified(userId, userName);
             IsDeleted = true;
         }
     }
