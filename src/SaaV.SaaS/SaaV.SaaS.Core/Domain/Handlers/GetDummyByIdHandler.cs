@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using Mapster;
 using MediatR;
 using SaaV.SaaS.Core.Domain.Requests;
 using SaaV.SaaS.Core.Domain.Responses;
@@ -9,12 +9,10 @@ namespace SaaV.SaaS.Core.Domain.Handlers
     public class GetDummyByIdHandler : IRequestHandler<GetDummyByIdRequest, GetDummyResponse>
     {
         IDummyRepository _dummyRepository;
-        IMapper _mapper;
 
-        public GetDummyByIdHandler(IDummyRepository dummyRepository, IMapper mapper)
+        public GetDummyByIdHandler(IDummyRepository dummyRepository)
         {
             _dummyRepository = dummyRepository;
-            _mapper = mapper;
         }
 
         public async Task<GetDummyResponse> Handle(GetDummyByIdRequest getDummyRequest, CancellationToken cancellationToken)
@@ -22,7 +20,7 @@ namespace SaaV.SaaS.Core.Domain.Handlers
             Dummy dummy = await _dummyRepository.GetByIdAsync(getDummyRequest.Id)
                 ?? throw new ItemNotFoundException(typeof(Dummy), getDummyRequest.Id);
 
-            return _mapper.Map<Dummy, GetDummyResponse>(dummy);
+            return dummy.Adapt<GetDummyResponse>();
         }
     }
 }

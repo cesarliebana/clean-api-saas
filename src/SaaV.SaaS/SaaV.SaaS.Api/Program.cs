@@ -26,7 +26,6 @@ namespace SaaV.SaaS.Api
             
             builder.Services.AddProviders();
             builder.Services.AddRepositories();
-            builder.Services.AddAutoMapper();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

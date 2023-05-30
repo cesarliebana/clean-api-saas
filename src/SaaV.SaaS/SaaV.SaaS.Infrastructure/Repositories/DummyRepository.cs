@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Mapster;
+using Microsoft.EntityFrameworkCore;
 using SaaV.SaaS.Core.Domain;
 using SaaV.SaaS.Core.Domain.Responses;
 using SaaV.SaaS.Infrastructure.Persistence;
@@ -11,11 +12,13 @@ namespace SaaV.SaaS.Infrastructure.Repositories
         {
         }
 
-        public Task<List<DummyListItem>> GetAllAsync()
+        public async Task<List<DummyListItem>> GetAllAsync()
         {
-            return _dbContext.Dummies
-                .Select(dummy => new DummyListItem(dummy.Id, dummy.Name))
-                .ToListAsync();
+            return await _dbContext.Dummies.ProjectToType<DummyListItem>().ToListAsync();
+
+            //return _dbContext.Dummies
+            //    .Select(dummy => new DummyListItem(dummy.Id, dummy.Name))
+            //    .ToListAsync();
         }
     }
 }

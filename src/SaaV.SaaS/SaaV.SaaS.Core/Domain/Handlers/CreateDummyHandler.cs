@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using Mapster;
 using MediatR;
 using SaaV.SaaS.Core.Domain.Requests;
 using SaaV.SaaS.Core.Domain.Responses;
@@ -10,14 +10,12 @@ namespace SaaV.SaaS.Core.Domain.Handlers
     {
         private readonly IDummyRepository _dummyRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly ICredentialProvider _credentialProvider;
 
-        public CreateDummyHandler(IDummyRepository dummyRepository, IUnitOfWork unitOfWork, IMapper mapper, ICredentialProvider credentialProvider)
+        public CreateDummyHandler(IDummyRepository dummyRepository, IUnitOfWork unitOfWork, ICredentialProvider credentialProvider)
         {
             _dummyRepository = dummyRepository;
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _credentialProvider = credentialProvider;
         }
 
@@ -33,7 +31,7 @@ namespace SaaV.SaaS.Core.Domain.Handlers
             
             await _unitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<Dummy, GetDummyResponse>(dummy);
+            return dummy.Adapt<GetDummyResponse>();
         }
     }
 }
