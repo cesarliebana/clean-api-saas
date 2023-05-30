@@ -1,27 +1,20 @@
 using FluentAssertions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using SaaV.SaaS.Core.Domain.Requests;
 using SaaV.SaaS.Core.Domain.Responses;
 using SaaV.SaaS.Core.Shared.Exceptions;
 using SaaV.SaaS.Infrastructure.Persistence;
 using SaaV.SaaS.UnitTests.Factories;
-using SaaV.SaaS.UnitTests.Fixtures;
-using System;
 
 namespace SaaV.SaaS.UnitTests.Tests
 {
-    [Collection("DependencyInjection Collection")]
-    public class DummyTest
+    public class DummyTest: SqlLiteTest
     {
         private readonly IMediator _mediator;
-        private readonly DependencyInjectionFixture _fixture;
 
-        public DummyTest(DependencyInjectionFixture fixture)
+        public DummyTest(IMediator mediator, SaaSDbContext dbContext): base(dbContext)
         { 
-            _mediator = fixture.ServiceProvider.GetRequiredService<IMediator>();
-            _fixture = fixture;
+            _mediator = mediator;
         }
 
         private async Task<GetDummyResponse> CreateDummy()
@@ -42,7 +35,6 @@ namespace SaaV.SaaS.UnitTests.Tests
         [Fact]
         public async Task CreateDummy_Success_Test()
         {
-            _fixture.CheckSqlLiteDatabase();
             GetDummyResponse getDummyResponse = await CreateDummy();
 
             CheckGetDummyResponse(getDummyResponse, getDummyResponse.Id);
