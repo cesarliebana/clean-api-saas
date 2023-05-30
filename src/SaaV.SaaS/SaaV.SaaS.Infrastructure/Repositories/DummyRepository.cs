@@ -15,10 +15,6 @@ namespace SaaV.SaaS.Infrastructure.Repositories
         public async Task<List<DummyListItem>> GetAllAsync()
         {
             return await _dbContext.Dummies.ProjectToType<DummyListItem>().ToListAsync();
-
-            //return _dbContext.Dummies
-            //    .Select(dummy => new DummyListItem(dummy.Id, dummy.Name))
-            //    .ToListAsync();
         }
     }
 }
