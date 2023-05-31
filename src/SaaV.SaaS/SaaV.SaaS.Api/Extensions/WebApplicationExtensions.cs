@@ -12,22 +12,24 @@ namespace SaaV.SaaS.WebApi.Extensions
             builder.MapGet("/", DummiesEndpoints.GetAllDummies)
                 .RequireAuthorization()
                 .WithName("GetAllDummies")
-                .WithDescription("Gets all dummies")
+                .WithSummary("Gets all dummies")
                 .Produces<GetAllDummiesResponse>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status401Unauthorized)
                 .WithOpenApi();
 
             builder.MapGet("/{id}", DummiesEndpoints.GetDummyById)
                 .RequireAuthorization()
                 .WithName("GetDummyById")
-                .WithDescription("Gets a dummy with an id")
+                .WithSummary("Gets a dummy with an id")
                 .Produces<GetDummyResponse>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
+                .Produces(StatusCodes.Status401Unauthorized)
                 .WithOpenApi();
 
             builder.MapPost("/", DummiesEndpoints.CreateDummy)
                 .RequireAuthorization()
                 .WithName("CreateDummy")
-                .WithDescription("Creates a dummy")
+                .WithSummary("Creates a dummy")
                 .Accepts<CreateDummyModel>("application/json")
                 .Produces<GetDummyResponse>(StatusCodes.Status201Created)
                 .Produces(StatusCodes.Status400BadRequest)
@@ -37,16 +39,19 @@ namespace SaaV.SaaS.WebApi.Extensions
             builder.MapPut("/{id}", DummiesEndpoints.UpdateDummy)
                 .RequireAuthorization()
                 .WithName("UpdateDummy")
-                .WithDescription("Updates a dummy")
+                .WithSummary("Updates a dummy")
                 .Accepts<UpdateDummyModel>("application/json")
                 .Produces<GetDummyResponse>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status400BadRequest)
+                .Produces(StatusCodes.Status401Unauthorized)
                 .WithOpenApi();
 
             builder.MapDelete("/{id}", DummiesEndpoints.DeleteDummy)
                 .RequireAuthorization()
                 .WithName("DeleteDummy")
-                .WithDescription("Deletes a dummy")
+                .WithSummary("Deletes a dummy")
                 .Produces(StatusCodes.Status204NoContent)
+                .Produces(StatusCodes.Status401Unauthorized)
                 .WithOpenApi();
         }
 
