@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
+using SaaV.SaaS.Api.Validators;
 using SaaV.SaaS.Core.Domain.Requests;
 using SaaV.SaaS.Core.Domain.Responses;
 using SaaV.SaaS.WebApi.Models;
@@ -23,17 +25,21 @@ namespace SaaV.SaaS.WebApi.Endpoints
             return Results.Ok(getDummyByIdResponse);
         }
 
-        public async static Task<IResult> CreateDummy(CreateDummyModel createDummyModel, IMediator mediator)
+        public async static Task<IResult> CreateDummy(CreateDummyModel createDummyModel, IValidator<CreateDummyModel> validator, IMediator mediator)
         {
-            CreateDummyRequest createDummyRequest = new(createDummyModel.Name);
+            validator.ValidateAndThrow(createDummyModel);
+
+            CreateDummyRequest createDummyRequest = new(createDummyModel.Name!);
             GetDummyResponse createDummyResponse = await mediator.Send(createDummyRequest);
             
             return Results.Created($"/dummies/{createDummyResponse.Id}", createDummyResponse);
         }
 
-        public static async Task<IResult> UpdateDummy(int id, UpdateDummyModel updateDummyModel, IMediator mediator)
+        public static async Task<IResult> UpdateDummy(int id, UpdateDummyModel updateDummyModel, IValidator<UpdateDummyModel> validator, IMediator mediator)
         {
-            UpdateDummyRequest updateDummyRequest = new(id, updateDummyModel.Name);
+            validator.ValidateAndThrow(updateDummyModel);
+
+            UpdateDummyRequest updateDummyRequest = new(id, updateDummyModel.Name!);
             GetDummyResponse updateDummyResponse = await mediator.Send(updateDummyRequest);
                        
             return Results.Ok(updateDummyResponse);

@@ -16,6 +16,7 @@ namespace SaaV.SaaS.WebApi.Middlewares
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
+
         public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
             _logger = logger;
@@ -44,6 +45,13 @@ namespace SaaV.SaaS.WebApi.Middlewares
                     context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                     errorDetails = new ErrorDetails(404, exception.Message);
                     break;
+
+                case FluentValidation.ValidationException:
+                    _logger.LogWarning(exception.Message);
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    errorDetails = new ErrorDetails(400, exception.Message);
+                    break;
+                
                 default:
                     _logger.LogError(exception.Message);
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

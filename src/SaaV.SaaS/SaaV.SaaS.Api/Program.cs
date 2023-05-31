@@ -1,7 +1,8 @@
-
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using SaaV.SaaS.Api.Extensions;
+using SaaV.SaaS.Api.Validators;
 using SaaV.SaaS.Core.Domain.Handlers;
 using SaaV.SaaS.Infrastructure.Persistence;
 using SaaV.SaaS.WebApi.Extensions;
@@ -22,8 +23,9 @@ namespace SaaV.SaaS.Api
             builder.Services.AddAuthorization();
             builder.Services.AddHttpContextAccessor();
 
-            builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(typeof(CreateDummyHandler).Assembly));
-            
+            builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblyContaining<CreateDummyHandler>());
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateDummyValidator>();
+
             builder.Services.AddProviders();
             builder.Services.AddRepositories();
 

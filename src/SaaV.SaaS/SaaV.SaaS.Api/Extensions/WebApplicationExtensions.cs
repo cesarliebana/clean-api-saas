@@ -30,6 +30,8 @@ namespace SaaV.SaaS.WebApi.Extensions
                 .WithDescription("Creates a dummy")
                 .Accepts<CreateDummyModel>("application/json")
                 .Produces<GetDummyResponse>(StatusCodes.Status201Created)
+                .Produces(StatusCodes.Status400BadRequest)
+                .Produces(StatusCodes.Status401Unauthorized)
                 .WithOpenApi();
 
             builder.MapPut("/{id}", DummiesEndpoints.UpdateDummy)
